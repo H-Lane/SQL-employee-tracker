@@ -67,7 +67,8 @@ function init() {
           ])
           .then((response) => {
             db.query(
-              `INSERT INTO department VALUES (${response.department})`,
+              `INSERT INTO department VALUES (?)`,
+              [response.department],
               (err, data) => {
                 if (err) throw err;
                 console.log(`${response.department} added to Departments.`);
@@ -79,48 +80,64 @@ function init() {
         db.query(`SELECT * FROM department`, (err, data) => {
           if (err) throw err;
 
-          inquirer.prompt([
-            {
-              type: "input",
-              name: "role",
-              message: "Name of new Role:",
-              validate: (input) => {
-                if (input) {
-                  return true;
-                } else {
-                  console.log("Please Add A Role!");
-                  return false;
-                }
+          inquirer
+            .prompt([
+              {
+                type: "input",
+                name: "role",
+                message: "Name of new Role:",
+                validate: (input) => {
+                  if (input) {
+                    return true;
+                  } else {
+                    console.log("Please Add A Role!");
+                    return false;
+                  }
+                },
               },
-            },
-            {
-              type: "input",
-              name: "salary",
-              message: "Salary of new Role:",
-              validate: (salaryInput) => {
-                if (salaryInput) {
-                  return true;
-                } else {
-                  console.log("Please Add A Salary!");
-                  return false;
-                }
+              {
+                type: "input",
+                name: "salary",
+                message: "Salary of new Role:",
+                validate: (salaryInput) => {
+                  if (salaryInput) {
+                    return true;
+                  } else {
+                    console.log("Please Add A Salary!");
+                    return false;
+                  }
+                },
               },
-            },
-            {
-              type: "list",
-              name: "department",
-              message: "Which department does the role belong to?",
-              choices: () => {
-                let choicesArray = [];
-                for (let i = 0; i < data.length; i++) {
-                  choicesArray.push(data[i].name);
-                }
-                return choicesArray;
+              {
+                type: "list",
+                name: "department",
+                message: "Which department does the role belong to?",
+                choices: () => {
+                  let choicesArray = [];
+                  for (let i = 0; i < data.length; i++) {
+                    choicesArray.push(data[i].name);
+                  }
+                  return choicesArray;
+                },
               },
-            }
-          ]).then((response) => {
+            ])
+            .then((response) => {
+              for (let i = 0; i < data.length; i++) {
+                if (data[i].name === response.department) {
+                  const department = data[i];
+                }
+              }
 
-          })
+              db.query(
+                `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,
+                [response.role, response.salary, department.id],
+                (err, data) => {
+                  if (err) throw err;
+                  console.log(`Added ${answers.role} to roles.`);
+                  init();
+                }
+              );
+            });
         });
       }
     });
