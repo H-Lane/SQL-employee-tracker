@@ -1,8 +1,10 @@
-const { Post } = require(`pg`);
+const {Pool} = require(`pg`);
 
-const db = new Post({
-    user: `postgres`,
-    password: `root`,
-    host: `localhost`,
-    database: `employees_db`
-})
+const db = new Pool({
+  user: `postgres`,
+  password: `root`,
+  host: `localhost`,
+  database: `employees_db`,
+});
+
+module.exports = db;

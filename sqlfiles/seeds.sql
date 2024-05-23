@@ -10,7 +10,7 @@ INSERT INTO role (title, salary, department_id)
 VALUES
   ('Team Lead', 150000, 1),
   ('Sales Specialist', 75000, 2),
-  ('Customer Service Representative', 60000, 3),
+  ('Customer Service', 60000, 3),
   ('Technician', 50000, 4);
 
 
