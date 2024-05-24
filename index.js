@@ -67,10 +67,10 @@ function init() {
           ])
           .then((response) => {
             db.query(
-              `INSERT INTO department VALUES (?)`,
+              "INSERT INTO department (name) VALUES (?)",
               [response.department],
               (err, data) => {
-                if (err) throw err;
+                // if (err) console.log(err);
                 console.log(`${response.department} added to Departments.`);
                 init();
               }
@@ -79,7 +79,7 @@ function init() {
       } else if (response.prompt === "Add A Role") {
         db.query(`SELECT * FROM department`, (err, data) => {
           if (err) throw err;
-
+          console.log(`here is some`, data);
           inquirer
             .prompt([
               {
@@ -114,26 +114,26 @@ function init() {
                 message: "Which department does the role belong to?",
                 choices: () => {
                   let choicesArray = [];
-                  for (let i = 0; i < data.length; i++) {
-                    choicesArray.push(data[i].name);
+                  for (let i = 0; i < data.rows.length; i++) {
+                    choicesArray.push(data.rows[i].name);
                   }
                   return choicesArray;
                 },
               },
             ])
             .then((response) => {
-              for (let i = 0; i < data.length; i++) {
-                if (data[i].name === response.department) {
-                  const department = data[i];
+              for (let i = 0; i < data.rows.length; i++) {
+                if (data.rows[i].name === response.department) {
+                  var department = data.rows[i];
                 }
               }
 
               db.query(
-                `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,
+                "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
                 [response.role, response.salary, department.id],
                 (err, data) => {
-                  if (err) throw err;
-                  console.log(`Added ${answers.role} to roles.`);
+                  //   if (err) throw err;
+                  console.log(`Added ${response.role} to roles.`);
                   init();
                 }
               );
