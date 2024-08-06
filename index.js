@@ -70,7 +70,7 @@ function init() {
               "INSERT INTO department (name) VALUES (?)",
               [response.department],
               (err, data) => {
-                if (err) throw err;
+                //if (err) throw err;
                 console.log(`${response.department} added to Departments.`);
                 init();
               }
@@ -132,7 +132,7 @@ function init() {
                 "INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)",
                 [response.role, response.salary, department.id],
                 (err, data) => {
-                  if (err) throw err;
+                  //if (err) throw err;
                   console.log(`Added ${response.role} to roles.`);
                   init();
                 }
@@ -172,17 +172,15 @@ function init() {
                 },
               },
               {
-                // Adding Employee Role
                 type: "list",
                 name: "role",
                 message: "What is the employees role?",
                 choices: () => {
-                  var array = [];
-                  for (var i = 0; i < result.length; i++) {
-                    array.push(result[i].title);
+                  let array = [];
+                  for (let i = 0; i < result.rows.length; i++) {
+                    array.push(result.rows[i].title);
                   }
-                  var newArray = [...new Set(array)];
-                  return newArray;
+                  return array;
                 },
               },
               {
@@ -212,11 +210,11 @@ function init() {
                 [
                   response.firstName,
                   response.lastName,
-                  role.id,
+                  response.role_id,
                   response.manager.id,
                 ],
                 (err, result) => {
-                  if (err) throw err;
+                  //if (err) throw err;
                   console.log(
                     `Added ${response.firstName} ${response.lastName} to the database.`
                   );
@@ -237,11 +235,10 @@ function init() {
                 message: "Which employees role do you want to update?",
                 choices: () => {
                   let array = [];
-                  for (let i = 0; i < result.length; i++) {
-                    array.push(result[i].last_name);
+                  for (let i = 0; i < result.rows.length; i++) {
+                    array.push(result.rows[i].last_name);
                   }
-                  let employeeArray = [...new Set(array)];
-                  return employeeArray;
+                  return array;
                 },
               },
               {
@@ -250,11 +247,10 @@ function init() {
                 message: "What is their new role?",
                 choices: () => {
                   let array = [];
-                  for (let i = 0; i < result.length; i++) {
-                    array.push(result[i].title);
+                  for (let i = 0; i < result.rows.length; i++) {
+                    array.push(result.rows[i].title);
                   }
-                  let newArray = [...new Set(array)];
-                  return newArray;
+                  return array;
                 },
               },
             ])
@@ -275,7 +271,7 @@ function init() {
                 `UPDATE employee SET ? WHERE ?`,
                 [{ role_id: role }, { last_name: name }],
                 (err, result) => {
-                  if (err) throw err;
+                  //if (err) throw err;
                   console.log(
                     `Changed ${response.employee}'s role in the database`
                   );
