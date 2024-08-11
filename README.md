@@ -21,7 +21,7 @@ The schemas for the SQL Tables can be found in the [./sqlfiles](./sqlfiles/) fol
 
 ## Usage
 
-A video walkthrough displaying the functionality of this app can be found [here]()
+A video walkthrough displaying the functionality of this app can be found [here](https://drive.google.com/file/d/1K8OvwuILPP2fp7lmMaWv2zzAkEcWyMkB/view)
 
 ## Credits
 
